@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordMint: Trench Protocol</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <audio id="audio-menu" src="assets/menu-theme.mp3" loop></audio>
+    <audio id="audio-drone" src="assets/drone-loop.mp3" loop></audio>
+    <audio id="audio-success" src="assets/success.mp3"></audio>
+    <audio id="audio-error" src="assets/error.mp3"></audio>
+    <audio id="audio-key" src="assets/keystroke.mp3"></audio>
+
+    <div id="menu-screen" class="screen active">
+        <h1>WordMint</h1>
+        <h2>TRENCH PROTOCOL</h2>
+
+        <div id="menu-options">
+            <button id="btn-start" class="menu-btn">[ INITIALIZE DECRYPTION ]</button>
+            <button id="btn-manual" class="menu-btn">[ SYSTEM MANUAL ]</button>
+        </div>
+
+        <div id="manual-section" class="hidden">
+            <div class="manual-content">
+                <h3>> MISSION BRIEFING</h3>
+                <p>You are a Signals Intelligence Analyst. Your objective is to intercept and decrypt heavily classified
+                    audio broadcasts to uncover the truth buried beneath the surface.</p>
+                <br>
+                <h3>> STANDARD OPERATING PROCEDURE</h3>
+                <p>1. Listen to the incoming audio transmission.</p>
+                <p>2. Type the exact spelling of the intercepted word.</p>
+                <p>3. Submit before the SIGNAL INTEGRITY drops to 0%.</p>
+                <p>4. Use terminal commands if needed: <strong>/replay</strong>, <strong>/hint</strong>, or
+                    <strong>/clear</strong>.
+                </p>
+            </div>
+            <button id="btn-back" class="menu-btn">[ RETURN ]</button>
+        </div>
+    </div>
+    <div id="terminal-screen" class="screen hidden">
+        <div id="game-environment">
+            <div id="ocean-bg"></div>
+            <div id="cockpit-overlay"></div>
+            <div id="red-alert-overlay"></div>
+        </div>
+
+        <div class="scanlines"></div>
+
+        <div id="left-monitor">
+            <div id="terminal-output">
+                <p>> SECURE CONNECTION ESTABLISHED...</p>
+                <p>> AWAITING SIGNAL INTERCEPT...</p>
+            </div>
+
+            <div id="input-line">
+                <span class="prompt">_></span>
+                <input type="text" id="player-input" autocomplete="off" spellcheck="false" autofocus>
+            </div>
+        </div>
+
+        <div id="right-monitor">
+            <div id="stats-panel">
+                <div class="stat-row">
+                    <span class="stat-label">DEPTH:</span>
+                    <span id="depth-meter">485 M</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">HULL INTEGRITY:</span>
+                    <span id="signal-timer">100%</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">STATUS:</span>
+                    <span id="signal-pulse">[ IDLE ]</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

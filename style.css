@@ -1,0 +1,443 @@
+/* GLOBAL STYLES & COLOR PALETTE */
+:root {
+    --bg-color: #0f172a;
+    /* Deep slate/navy blue */
+    --text-color: #4ade80;
+    /* Soft readable green */
+    --text-glow: rgba(74, 222, 128, 0.6);
+    --highlight: #38bdf8;
+    /* Soft cyan for decrypted narrative */
+    --error-color: #f87171;
+    /* Soft red for errors */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'VT323', monospace;
+    font-size: 24px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* HIDES THE BROWSER SCROLLBAR */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* SCREEN MANAGEMENT */
+.screen {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* BOOT MENU STYLES */
+#menu-screen {
+    text-align: center;
+    z-index: 10;
+}
+
+h1 {
+    font-size: 5rem;
+    color: var(--text-color);
+    text-shadow: 0 0 15px var(--text-glow);
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 2rem;
+    color: var(--highlight);
+    margin-bottom: 50px;
+    letter-spacing: 8px;
+}
+
+.menu-btn {
+    background: none;
+    color: var(--text-color);
+    border: 2px solid var(--text-color);
+    padding: 15px 30px;
+    margin: 10px;
+    font-family: inherit;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 5px var(--text-glow);
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.2) inset;
+    display: inline-block;
+}
+
+.menu-btn:hover {
+    background: var(--text-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 25px var(--text-color);
+    text-shadow: none;
+}
+
+/* MANUAL STYLES */
+#manual-section {
+    text-align: left;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid var(--text-color);
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.8);
+}
+
+.manual-content h3 {
+    color: var(--highlight);
+    margin-bottom: 10px;
+    text-shadow: 0 0 8px var(--highlight);
+}
+
+.manual-content p {
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+#btn-back {
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+/* GAME ENVIRONMENT & COCKPIT OVERLAY */
+#game-environment {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    /* Below all UI */
+    display: block;
+}
+
+#ocean-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 200vh;
+    /* Double height for scrolling */
+    background: url('assets/ocean-bg.png') repeat-y;
+    background-size: cover;
+    animation: sink 60s linear infinite;
+    z-index: 2;
+}
+
+@keyframes sink {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 0 -1000px;
+    }
+}
+
+#cockpit-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url('assets/cockpit.png') no-repeat center center;
+    background-size: 100% 100%;
+    /* Forces image to lock to the window */
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* TERMINAL STYLES (NOW IN COCKPIT) */
+#terminal-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: none !important;
+    /* THIS FIXES THE 800PX BUG */
+    z-index: 10;
+    background: transparent;
+}
+
+/* 
+   We use percentages and CSS transforms to approximate the monitor positions 
+   relative to the center-contained cockpit image.
+*/
+.monitor-screen {
+    position: absolute;
+    background: rgba(10, 20, 15, 0.85);
+    /* Dark tint to cover pre-drawn text */
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+}
+
+#left-monitor {
+    position: absolute;
+    top: 56.5%;
+    /* Shifted down */
+    left: 16.5%;
+    /* Shifted right */
+    width: 16.5%;
+    /* Slightly narrower */
+    height: 28%;
+    /* Slightly shorter */
+    background: rgba(5, 15, 10, 0.98);
+    border: 2px solid #1a4a28;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.05);
+    z-index: 20;
+}
+
+#right-monitor {
+    position: absolute;
+    top: 55%;
+    /* Shifted down */
+    left: 57.5%;
+    /* Shifted right */
+    width: 20%;
+    /* Slightly wider to fit text */
+    height: 28%;
+    /* Slightly shorter */
+    background: rgba(5, 15, 10, 0.98);
+    border: 2px solid #1a4a28;
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.05);
+    z-index: 20;
+}
+
+/* TERMINAL OUTPUT (LEFT MONITOR) */
+#terminal-output {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px var(--text-glow);
+    font-size: 16px;
+    /* Scaled down to fit */
+}
+
+#terminal-output p {
+    margin-bottom: 10px;
+    line-height: 1.1;
+    word-wrap: break-word;
+}
+
+/* STATS PANEL (RIGHT MONITOR) */
+#stats-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 16px;
+    /* Smaller font */
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed rgba(74, 222, 128, 0.3);
+    padding-bottom: 5px;
+}
+
+.stat-label {
+    color: var(--highlight);
+    text-shadow: 0 0 5px var(--highlight);
+    font-size: 16px;
+}
+
+#depth-meter,
+#signal-timer,
+#signal-pulse {
+    font-size: 18px;
+    /* Scaled down from 24px */
+    font-weight: bold;
+}
+
+/* INPUT LINE STYLES */
+#input-line {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--text-color);
+    padding-top: 15px;
+}
+
+.prompt {
+    margin-right: 15px;
+    text-shadow: 0 0 5px var(--text-glow);
+}
+
+#player-input {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 24px;
+    flex-grow: 1;
+    outline: none;
+    text-shadow: 0 0 5px var(--text-glow);
+    text-transform: uppercase;
+}
+
+/* SCANLINES (Retained, but kept subtle) */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 0) 50%,
+            rgba(0, 0, 0, 0.15) 50%,
+            rgba(0, 0, 0, 0.15));
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 50;
+}
+
+/* BUBBLES AMBIENT EFFECT */
+.bubble {
+    position: absolute;
+    bottom: -50px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    animation: rise infinite ease-in;
+    z-index: 2;
+    /* Between background and cockpit */
+}
+
+@keyframes rise {
+    0% {
+        bottom: -50px;
+        transform: translateX(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        bottom: 100vh;
+        transform: translateX(20px);
+        opacity: 0;
+    }
+}
+
+/* DYNAMIC UTILITY CLASSES */
+.shake {
+    animation: shake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-2px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(4px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-6px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(6px, 0, 0);
+    }
+}
+
+.error-text {
+    color: var(--error-color) !important;
+    text-shadow: 0 0 10px var(--error-color) !important;
+}
+
+/* --- RED ALERT EMERGENCY STATE --- */
+#red-alert-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 0, 0, 0.15);
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    mix-blend-mode: multiply;
+}
+
+/* Activated by JavaScript when timer is low */
+.red-alert-active #red-alert-overlay {
+    animation: pulse-red 1.5s infinite;
+}
+
+@keyframes pulse-red {
+    0% {
+        opacity: 0.1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0.1;
+    }
+}
+
+/* Turns the monitors red */
+.red-alert-active #left-monitor,
+.red-alert-active #right-monitor {
+    box-shadow: inset 0 0 40px rgba(255, 0, 0, 0.4);
+    border-color: #8b0000;
+}
+
+/* Turns all UI text red */
+.red-alert-active #terminal-output,
+.red-alert-active .prompt,
+.red-alert-active #player-input,
+.red-alert-active .stat-label,
+.red-alert-active #depth-meter,
+.red-alert-active #signal-pulse,
+.red-alert-active #signal-timer {
+    color: var(--error-color) !important;
+    text-shadow: 0 0 8px rgba(248, 113, 113, 0.8) !important;
+}
